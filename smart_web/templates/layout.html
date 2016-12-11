@@ -4,6 +4,7 @@
     <head>
         <title>Smart House Manager</title>
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+        {% block link %}{% endblock %}
         {% block script %}{% endblock %}
     </head>
     <body>
