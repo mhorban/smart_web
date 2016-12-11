@@ -2,10 +2,12 @@
 
 {% block link %}
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/query-builder.default.min.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/jquery-ui.css') }}">
 {% endblock %}
 
 {% block script %}
     <script src="{{ url_for('static', filename='js/lib/jquery-1.11.3.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery-ui.js') }}"></script>
     <script src="{{ url_for('static', filename='js/lib/bootstrap.js') }}"></script>
     <script src="{{ url_for('static', filename='js/lib/jQuery.extendext.js') }}"></script>
     <script src="{{ url_for('static', filename='js/lib/doT.js') }}"></script>
@@ -26,11 +28,25 @@
       </dl>
     </form>
   {% endif %}
-  <ul class=entries>
-  {% for entry in entries %}
-    <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}
-  {% else %}
-    <li><em>Unbelievable.  No entries here so far</em>
-  {% endfor %}
-  </ul>
+    <div id="tabs">
+      <ul>
+        <li><a href="#tabs-1">Rooms</a></li>
+        <li><a href="#tabs-2">Sensors</a></li>
+        <li><a href="#tabs-3">Devices</a></li>
+        <li><a href="#tabs-4">Rules</a></li>
+      </ul>
+      <div id="tabs-1">
+        <p>Text 1.</p>
+      </div>
+      <div id="tabs-2">
+        <p>Text 2.</p>
+      </div>
+      <div id="tabs-3">
+        <p>Text 3.</p>
+        <p>Text 4.</p>
+      </div>
+      <div id="tabs-4">
+        <p>Text 5.</p>
+      </div>
+    </div>
 {% endblock %}

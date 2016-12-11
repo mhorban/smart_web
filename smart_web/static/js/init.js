@@ -8,6 +8,9 @@ var g_world = new World();
 
 $(document).ready(function() {
     g_world.Init();
+    $(function() {
+        $("#tabs").tabs();
+    });
     //view.init();
     //driverManager.getLogLoop();
 });
