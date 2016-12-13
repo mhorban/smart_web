@@ -4,13 +4,12 @@
 // Written by Marian Horban <m.horban@gmail.com>
 
 var g_world = new World();
-//var view = new View();
+var g_view = new View();
 
 $(document).ready(function() {
     g_world.Init();
-    $(function() {
-        $("#tabs").tabs();
-    });
+    g_view.Init();
+
     //view.init();
     //driverManager.getLogLoop();
 });

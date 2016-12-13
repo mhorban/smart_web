@@ -13,6 +13,7 @@
     <script src="{{ url_for('static', filename='js/lib/doT.js') }}"></script>
     <script src="{{ url_for('static', filename='js/lib/query-builder.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/model.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/view.js') }}"></script>
     <script src="{{ url_for('static', filename='js/init.js') }}"></script>
 {% endblock %}
 
@@ -30,22 +31,22 @@
   {% endif %}
     <div id="tabs">
       <ul>
-        <li><a href="#tabs-1">Rooms</a></li>
-        <li><a href="#tabs-2">Sensors</a></li>
-        <li><a href="#tabs-3">Devices</a></li>
-        <li><a href="#tabs-4">Rules</a></li>
+        <li><a href="#rooms">Rooms</a></li>
+        <li><a href="#sensors">Sensors</a></li>
+        <li><a href="#devices">Devices</a></li>
+        <li><a href="#rules">Rules</a></li>
       </ul>
-      <div id="tabs-1">
+      <div id="rooms">
         <p>Text 1.</p>
       </div>
-      <div id="tabs-2">
+      <div id="sensors">
         <p>Text 2.</p>
       </div>
-      <div id="tabs-3">
+      <div id="devices">
         <p>Text 3.</p>
         <p>Text 4.</p>
       </div>
-      <div id="tabs-4">
+      <div id="rules">
         <p>Text 5.</p>
       </div>
     </div>
