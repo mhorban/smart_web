@@ -3,14 +3,15 @@
 // Proprietary and confidential
 // Written by Marian Horban <m.horban@gmail.com>
 
-function World() {
+function Model(controller) {
+    this.controller = controller;
     this.rooms = new Rooms();
     this.sensors = new Sensors();
     this.devices = new Devices();
     this.rules = new Rules();
 }
 
-World.prototype.Init = function() {
+Model.prototype.Init = function() {
     this.rooms.InitList();
     this.sensors.InitList();
     this.devices.InitList();
@@ -19,6 +20,7 @@ World.prototype.Init = function() {
 
 function BaseModel() {
     this.array = [];
+    this.controller = null;
 }
 
 BaseModel.prototype.InitList = function() {
@@ -98,34 +100,36 @@ BaseModel.prototype.Remove = function(name) {
     });
 };
 
-function Rooms() {
+function Rooms(controller) {
     BaseModel.apply(this, arguments);
     this.url_base = "api/room/";
     this.array_class = Room;
+    this.controller = controller;
 }
 
 Rooms.prototype = Object.create(BaseModel.prototype);
 Rooms.prototype.constructor = Rooms;
 
 Rooms.prototype.ModelChangedCb = function() {
-    //TODO redraw
+    this.controller.RedrawRooms();
 };
 
 function Room(room_data) {
     this.name = room_data.name;
 }
 
-function Sensors() {
+function Sensors(controller) {
     BaseModel.apply(this, arguments);
     this.url_base = "api/sensor/";
     this.array_class = Sensor;
+    this.controller = controller;
 }
 
 Sensors.prototype = Object.create(BaseModel.prototype);
 Sensors.prototype.constructor = Sensors;
 
 Sensors.prototype.ModelChangedCb = function() {
-    //TODO redraw
+    this.controller.RedrawSensors();
 };
 
 function Sensor(sensor_data) {
@@ -135,17 +139,18 @@ function Sensor(sensor_data) {
     this.value = sensor_data.value;
 }
 
-function Devices() {
+function Devices(controller) {
     BaseModel.apply(this, arguments);
     this.url_base = "api/device/";
     this.array_class = Device;
-};
+    this.controller = controller;
+}
 
 Devices.prototype = Object.create(BaseModel.prototype);
 Devices.prototype.constructor = Devices;
 
 Devices.prototype.ModelChangedCb = function() {
-    //TODO redraw
+    this.controller.RedrawDevices();
 };
 
 function Device(device_data) {
@@ -164,17 +169,18 @@ function Operation(operation_data) {
     this.name = operation_data.name;
 }
 
-function Rules() {
+function Rules(controller) {
     BaseModel.apply(this, arguments);
     this.url_base = "api/rule/";
     this.array_class = Rule;
+    this.controller = controller;
 }
 
 Rules.prototype = Object.create(BaseModel.prototype);
 Rules.prototype.constructor = Rules;
 
 Rules.prototype.ModelChangedCb = function() {
-    //TODO redraw
+    this.controller.RedrawRules();
 };
 
 function Rule(rule_data) {
