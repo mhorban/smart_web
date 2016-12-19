@@ -5,10 +5,10 @@
 
 function Model(controller) {
     this.controller = controller;
-    this.rooms = new Rooms();
-    this.sensors = new Sensors();
-    this.devices = new Devices();
-    this.rules = new Rules();
+    this.rooms = new Rooms(controller);
+    this.sensors = new Sensors(controller);
+    this.devices = new Devices(controller);
+    this.rules = new Rules(controller);
 }
 
 Model.prototype.Init = function() {
@@ -111,7 +111,7 @@ Rooms.prototype = Object.create(BaseModel.prototype);
 Rooms.prototype.constructor = Rooms;
 
 Rooms.prototype.ModelChangedCb = function() {
-    this.controller.RedrawRooms();
+    this.controller.RedrawRooms(this.array);
 };
 
 function Room(room_data) {
@@ -129,7 +129,7 @@ Sensors.prototype = Object.create(BaseModel.prototype);
 Sensors.prototype.constructor = Sensors;
 
 Sensors.prototype.ModelChangedCb = function() {
-    this.controller.RedrawSensors();
+    this.controller.RedrawSensors(this.array);
 };
 
 function Sensor(sensor_data) {
@@ -150,7 +150,7 @@ Devices.prototype = Object.create(BaseModel.prototype);
 Devices.prototype.constructor = Devices;
 
 Devices.prototype.ModelChangedCb = function() {
-    this.controller.RedrawDevices();
+    this.controller.RedrawDevices(this.array);
 };
 
 function Device(device_data) {
@@ -180,7 +180,7 @@ Rules.prototype = Object.create(BaseModel.prototype);
 Rules.prototype.constructor = Rules;
 
 Rules.prototype.ModelChangedCb = function() {
-    this.controller.RedrawRules();
+    this.controller.RedrawRules(this.array);
 };
 
 function Rule(rule_data) {

@@ -11,24 +11,24 @@ function Controller() {
 Controller.prototype.Init = function(model, view) {
     this.model = model;
     this.view = view;
-    thsi.model.Init();
+    this.model.Init();
     this.view.Init();
     //driverManager.getLogLoop();
-}
+};
 
-Controller.prototype.RedrawRooms = function() {
+Controller.prototype.RedrawRooms = function(rooms) {
+    this.view.RedrawRooms(rooms);
+};
 
-}
+Controller.prototype.RedrawSensors = function(sensors) {
+    this.view.RedrawSensors(sensors);
+};
 
-Controller.prototype.RedrawSensors = function() {
+Controller.prototype.RedrawDevices = function(devices) {
+    this.view.RedrawDevices(devices);
+};
 
-}
-
-Controller.prototype.RedrawDevices = function() {
-
-}
-
-Controller.prototype.RedrawRules = function() {
-
-}
+Controller.prototype.RedrawRules = function(rules) {
+    this.view.RedrawRules(rules);
+};
 
