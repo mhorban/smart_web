@@ -24,12 +24,15 @@ View.prototype.CleanSubTabs = function(parent_id) {
 
 View.prototype.AddSubTab = function(parent_id, item) {
     var item_name = item.name;
-    var sub_tab_id = "tab_" + item_name;
+    var sub_tab_id = "tab_" + item_name.replace(/^[^a-z]+|[^\w:.-]+/gi, "");
     $("#" + parent_id + " ul").append(
-        "<li><a href='" + sub_tab_id + "'>" + item_name + "</a></li>"
+        "<li><a id='" + "li_" + sub_tab_id + "' href='#" + sub_tab_id + "' name='" + item_name + "'>" + item_name + "</a></li>"
     );
+    //$("#li_" + sub_tab_id).click(function() {
+    //    alert("Show page for " + item_name);
+    //});
     $("#" + parent_id).append(
-        "<div id='" + sub_tab_id + "' name='" + item_name + "'></div>"
+        "<div id='" + sub_tab_id + "' name='" + item_name + "'>JUST TEXT</div>"
     );
 };
 
