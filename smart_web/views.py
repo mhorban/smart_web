@@ -3,12 +3,18 @@
 # Proprietary and confidential
 # Written by Marian Horban <m.horban@gmail.com>
 
+import xmlrpclib
+import json
 import flask
 import flask_restful
 import flask_login
+from flask_restful import reqparse
 
 from smart_web import app
 from smart_web import api
+
+
+xmlrpc_server = xmlrpclib.ServerProxy(app.config['XMLRPC_SERVER_ADDR'])
 
 
 @app.route('/')
@@ -43,21 +49,55 @@ def login():
 BASE_URL = "/api"
 
 
-class RoomList(flask_restful.Resource):
+class ObjectListApi(flask_restful.Resource):
     #@flask_login.login_required
     def get(self):
-        return [
-            {'name': 'Aula'},
-            {'name': 'Small Room'},
-            {'name': 'Kitchen'},
-            {'name': 'Bath'},
-            {'name': 'Living room'},
-            {'name': 'Toilet'}
-        ]
+        return getattr(xmlrpc_server, self.xmlrpc_method_prefix + '_list')()
 
-
-class SensorList(flask_restful.Resource):
     #@flask_login.login_required
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('name', type=str, required=True, location='json')
+        args = parser.parse_args(strict=True)
+        return getattr(xmlrpc_server, self.xmlrpc_method_prefix + '_add')(args.name, {})
+
+
+class ObjectApi(flask_restful.Resource):
+    #@flask_login.login_required
+    def get(self, name):
+        return getattr(xmlrpc_server, self.xmlrpc_method_prefix + '_get')(name)
+
+    #@flask_login.login_required
+    def put(self, name):
+        return getattr(xmlrpc_server, self.xmlrpc_method_prefix + '_edit')(name, flask.request.data)
+
+    #@flask_login.login_required
+    def delete(self, name):
+        return getattr(xmlrpc_server, self.xmlrpc_method_prefix + '_delete')(name)
+
+
+class RoomListApi(ObjectListApi):
+    xmlrpc_method_prefix = 'room'
+
+    #STUB METHOD - REMOVE ME
+    # def get(self):
+    #     return [
+    #         {'name': 'Aula'},
+    #         {'name': 'Small Room'},
+    #         {'name': 'Kitchen'},
+    #         {'name': 'Bath'},
+    #         {'name': 'Living room'},
+    #         {'name': 'Toilet'}
+    #     ]
+
+
+class RoomApi(ObjectApi):
+    xmlrpc_method_prefix = 'room'
+
+
+class SensorListApi(ObjectListApi):
+    xmlrpc_method_prefix = 'sensor'
+
     def get(self):
         return [
             {
@@ -84,8 +124,13 @@ class SensorList(flask_restful.Resource):
         ]
 
 
-class DeviceList(flask_restful.Resource):
-    #@flask_login.login_required
+class SensorApi(ObjectApi):
+    xmlrpc_method_prefix = 'sensor'
+
+
+class DeviceListApi(ObjectListApi):
+    xmlrpc_method_prefix = 'device'
+
     def get(self):
         return [
             {
@@ -140,8 +185,13 @@ class DeviceList(flask_restful.Resource):
         ]
 
 
-class RuleList(flask_restful.Resource):
-    #@flask_login.login_required
+class DeviceApi(ObjectApi):
+    xmlrpc_method_prefix = 'device'
+
+
+class RuleListApi(ObjectListApi):
+    xmlrpc_method_prefix = 'rule'
+
     def get(self):
         return [
             {
@@ -164,7 +214,18 @@ class RuleList(flask_restful.Resource):
         ]
 
 
-api.add_resource(RoomList, '{0}/room/'.format(BASE_URL), endpoint='room_list')
-api.add_resource(SensorList, '{0}/sensor/'.format(BASE_URL), endpoint='sensor_list')
-api.add_resource(DeviceList, '{0}/device/'.format(BASE_URL), endpoint='device_list')
-api.add_resource(RuleList, '{0}/rule/'.format(BASE_URL), endpoint='rule_list')
+class RuleApi(ObjectApi):
+    xmlrpc_method_prefix = 'rule'
+
+
+api.add_resource(RoomListApi, '{0}/room/'.format(BASE_URL), endpoint='room_list')
+api.add_resource(RoomApi, '{0}/room/<string:name>'.format(BASE_URL), endpoint='room')
+
+api.add_resource(SensorListApi, '{0}/sensor/'.format(BASE_URL), endpoint='sensor_list')
+api.add_resource(SensorApi, '{0}/sensor/<string:name>'.format(BASE_URL), endpoint='sensor')
+
+api.add_resource(DeviceListApi, '{0}/device/'.format(BASE_URL), endpoint='device_list')
+api.add_resource(DeviceApi, '{0}/device/<string:name>'.format(BASE_URL), endpoint='device')
+
+api.add_resource(RuleListApi, '{0}/rule/'.format(BASE_URL), endpoint='rule_list')
+api.add_resource(RuleApi, '{0}/rule/<string:name>'.format(BASE_URL), endpoint='rule')

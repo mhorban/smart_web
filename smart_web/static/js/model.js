@@ -45,7 +45,7 @@ BaseModel.prototype.InitList = function() {
 BaseModel.prototype.AddNew = function(data) {
     var self = this;
     $.ajax({
-        url: this.url_base + "new/",
+        url: this.url_base,
         type: "POST",
         data: data
     })
@@ -64,7 +64,7 @@ BaseModel.prototype.Edit = function(name, data) {
     var self = this;
     $.ajax({
         url: this.url_base + name,
-        type: "POST",
+        type: "PUT",
         data: data
     })
     .done(function(resp_data) {
