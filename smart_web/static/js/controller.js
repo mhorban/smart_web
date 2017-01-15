@@ -49,3 +49,18 @@ Controller.prototype.RemoveObject = function(obj_type, name) {
     }
 };
 
+Controller.prototype.AddNewRoom = function(obj) {
+
+};
+
+Controller.prototype.AddNewSensor = function(obj) {
+
+};
+
+Controller.prototype.AddNewDevice = function(obj) {
+
+};
+
+Controller.prototype.AddNewRule = function(obj) {
+
+};

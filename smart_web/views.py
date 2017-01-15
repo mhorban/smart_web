@@ -80,15 +80,15 @@ class RoomListApi(ObjectListApi):
     xmlrpc_method_prefix = 'room'
 
     #STUB METHOD - REMOVE ME
-    # def get(self):
-    #     return [
-    #         {'name': 'Aula'},
-    #         {'name': 'Small Room'},
-    #         {'name': 'Kitchen'},
-    #         {'name': 'Bath'},
-    #         {'name': 'Living room'},
-    #         {'name': 'Toilet'}
-    #     ]
+    def get(self):
+        return [
+            {'name': 'Aula'},
+            {'name': 'Small Room'},
+            {'name': 'Kitchen'},
+            {'name': 'Bath'},
+            {'name': 'Living room'},
+            {'name': 'Toilet'}
+        ]
 
 
 class RoomApi(ObjectApi):

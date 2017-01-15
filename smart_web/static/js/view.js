@@ -182,19 +182,47 @@ View.prototype.GetAddNewRuleForm = function() {
 };
 
 View.prototype.AddOnSaveRoomClickHandler = function() {
-    ;
+    var self = this;
+    $('#save_new_room').click(function() {
+        self.controller.AddNewRoom({
+            name: $('#add_new_room_name').text()
+        });
+    });
 };
 
 View.prototype.AddOnSaveSensorClickHandler = function() {
-    ;
+    var self = this;
+    $('#save_new_sensor').click(function() {
+        self.controller.AddNewSensor({
+            name: $('#add_new_sensor_name').text(),
+            description: $('#add_new_sensor_descr').text(),
+            room: $('#add_new_sensor_room').text()
+        });
+    });
 };
 
 View.prototype.AddOnSaveDeviceClickHandler = function() {
-    ;
+    var self = this;
+    $('#save_new_device').click(function() {
+        self.controller.AddNewDevice({
+            name: $('#add_new_device_name').text(),
+            description: $('#add_new_device_descr').text(),
+            room: $('#add_new_device_room').text(),
+            operation: $('#add_new_device_operation').text()
+        });
+    });
 };
 
 View.prototype.AddOnSaveRuleClickHandler = function() {
-    ;
+    var self = this;
+    $('#save_new_rule').click(function() {
+        self.controller.AddNewRule({
+            name: $('#add_new_rule_name').text(),
+            description: $('#add_new_rule_descr').text(),
+            formula: $('#add_new_rule_formula').text(),
+            handlers: $('#add_new_rule_handlers').text()
+        });
+    });
 };
 
 View.prototype.ShowSubTabs = function(parent_id) {
