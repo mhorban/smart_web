@@ -32,3 +32,20 @@ Controller.prototype.RedrawRules = function(rules) {
     this.view.RedrawRules(rules);
 };
 
+Controller.prototype.RemoveObject = function(obj_type, name) {
+    switch (obj_type) {
+        case 'rooms':
+            this.model.rooms.Remove(name);
+            break;
+        case 'sensors':
+            this.model.sensors.Remove(name);
+            break;
+        case 'devices':
+            this.model.devices.Remove(name);
+            break;
+        case 'rules':
+            this.model.rules.Remove(name);
+            break;
+    }
+};
+

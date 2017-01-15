@@ -24,3 +24,17 @@
     float: right;
     width: 40em;
 }
+
+.ui-tabs-vertical .ui-tabs-nav li a.remove_sub_tab {
+    display: inline;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 11%;
+    bottom: 31%;
+}
+img.remove_sub_tab {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+}

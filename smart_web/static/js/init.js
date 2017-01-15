@@ -6,6 +6,6 @@
 $(document).ready(function() {
     var controller = new Controller();
     var model = new Model(controller);
-    var view = new View();
+    var view = new View(controller);
     controller.Init(model, view);
 });
