@@ -41,11 +41,10 @@ View.prototype.AddSubTab = function(parent_id, item) {
         var obj_name = $(this).attr('name');
         self.controller.RemoveObject(obj_type, obj_name);
     });
-    //$("#li_" + sub_tab_id).click(function() {
-    //    alert("Show page for " + item_name);
-    //});
+
+    var subtab_form = this.GetSubtabForm(parent_id, item);
     $("#" + parent_id).append(
-        "<div id='" + sub_tab_id + "' name='" + item_name + "'>JUST TEXT</div>"
+        "<div id='" + sub_tab_id + "' name='" + item_name + "'>" + subtab_form + "</div>"
     );
 };
 
@@ -101,6 +100,16 @@ View.prototype.GetAddNewRoomForm = function() {
         "</table>");
 };
 
+View.prototype.GetRoomForm = function(item) {
+    return (
+        "<table>" +
+            "<tr>" +
+                "<td>Name</td>" +
+                "<td><div>" + item.name + "</div></td>" +
+            "</tr>" +
+        "</table>");
+};
+
 View.prototype.GetAddNewSensorForm = function() {
     return (
         "<table>" +
@@ -119,6 +128,24 @@ View.prototype.GetAddNewSensorForm = function() {
             "<tr>" +
                 "<td></td>" +
                 "<td><button id='save_new_sensor' type='button'>Save</button></td>" +
+            "</tr>" +
+        "</table>");
+};
+
+View.prototype.GetSensorForm = function(item) {
+    return (
+        "<table>" +
+            "<tr>" +
+                "<td>Name</td>" +
+                "<td><div>" + item.name + "</div></td>" +
+            "</tr>" +
+            "<tr>" +
+                "<td>Description</td>" +
+                "<td><div>" + item.description + "</div></td>" +
+            "</tr>" +
+            "<tr>" +
+                "<td>Room</td>" +
+                "<td><div>" + item.room + "</div></td>" +
             "</tr>" +
         "</table>");
 };
@@ -152,6 +179,30 @@ View.prototype.GetAddNewDeviceForm = function() {
         "</table>");
 };
 
+View.prototype.GetDeviceForm = function(item) {
+    return (
+        "<table>" +
+            "<tr>" +
+                "<td>Name</td>" +
+                "<td><div>" + item.name + "</div></td>" +
+            "</tr>" +
+            "<tr>" +
+                "<td>Description</td>" +
+                "<td><div>" + item.description + "</div></td>" +
+            "</tr>" +
+            "<tr>" +
+                "<td>Room</td>" +
+                "<td><div>" + item.room + "</div></td>" +
+            "</tr>" +
+            "<tr>" +
+                "<td>Operations</td>" +
+                "<td>" +
+                    "<div>" + item.operations + "</div>" +
+                "</td>" +
+            "</tr>" +
+        "</table>");
+};
+
 View.prototype.GetAddNewRuleForm = function() {
     return (
         "<table>" +
@@ -177,6 +228,30 @@ View.prototype.GetAddNewRuleForm = function() {
             "<tr>" +
                 "<td></td>" +
                 "<td><button id='save_new_rule' type='button'>Save</button></td>" +
+            "</tr>" +
+        "</table>");
+};
+
+View.prototype.GetRuleForm = function(item) {
+    return (
+        "<table>" +
+            "<tr>" +
+                "<td>Name</td>" +
+                "<td><div>" + item.name + "</div></td>" +
+            "</tr>" +
+            "<tr>" +
+                "<td>Description</td>" +
+                "<td><div>" + item.description + "</div></td>" +
+            "</tr>" +
+            "<tr>" +
+                "<td>Formula</td>" +
+                "<td><div>BIG TODO HERE</div></td>" +
+            "</tr>" +
+            "<tr>" +
+                "<td>Handlers</td>" +
+                "<td>" +
+                    "<div>" + item.handlers + "</div>" +
+                 "</td>" +
             "</tr>" +
         "</table>");
 };
@@ -223,6 +298,19 @@ View.prototype.AddOnSaveRuleClickHandler = function() {
             handlers: $('#add_new_rule_handlers').text()
         });
     });
+};
+
+View.prototype.GetSubtabForm = function(parent_id, item) {
+    switch (parent_id) {
+        case 'rooms':
+            return this.GetRoomForm(item);
+        case 'sensors':
+            return this.GetSensorForm(item);
+        case 'devices':
+            return this.GetDeviceForm(item);
+        case 'rules':
+            return this.GetRuleForm(item);
+    }
 };
 
 View.prototype.ShowSubTabs = function(parent_id) {
