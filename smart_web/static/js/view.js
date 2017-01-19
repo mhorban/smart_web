@@ -13,8 +13,8 @@ View.prototype.Init = function() {
 
 View.prototype.RedrawList = function(tab_name, list) {
     this.CleanSubTabs(tab_name);
-    for(var room in list) {
-        this.AddSubTab(tab_name, list[room]);
+    for(var obj in list) {
+        this.AddSubTab(tab_name, list[obj]);
     }
     this.AddSubTabNew(tab_name);
     this.ShowSubTabs(tab_name);
@@ -42,10 +42,11 @@ View.prototype.AddSubTab = function(parent_id, item) {
         self.controller.RemoveObject(obj_type, obj_name);
     });
 
-    var subtab_form = this.GetSubtabForm(parent_id, item);
-    $("#" + parent_id).append(
-        "<div id='" + sub_tab_id + "' name='" + item_name + "'>" + subtab_form + "</div>"
-    );
+    //var subtab_form =
+    this.AddSubtabForm(parent_id, sub_tab_id, item);
+    // $("#" + parent_id).append(
+    //     "<div id='" + sub_tab_id + "' name='" + item_name + "'>" + subtab_form + "</div>"
+    // );
 };
 
 View.prototype.AddSubTabNew = function(parent_id) {
@@ -53,23 +54,24 @@ View.prototype.AddSubTabNew = function(parent_id) {
     $("#" + parent_id + " ul").append(
         "<li><a id='" + "li_" + parent_id + "_add_new' href='#" + sub_tab_id + "'>Add New</a></li>"
     );
-    var add_new_form = this.GetAddNewForm(parent_id);
-    $("#" + parent_id).append(
-        "<div id='" + sub_tab_id + "'>" + add_new_form + "</div>"
-    );
+    //var add_new_form =
+    this.AddNewForm(parent_id);
+    // $("#" + parent_id).append(
+    //     "<div id='" + sub_tab_id + "'>" + add_new_form + "</div>"
+    // );
     this.AddOnSaveClickHandler(parent_id);
 };
 
-View.prototype.GetAddNewForm = function(parent_id) {
+View.prototype.AddNewForm = function(parent_id) {
     switch (parent_id) {
         case 'rooms':
-            return this.GetAddNewRoomForm();
+            return this.AddNewRoomForm();
         case 'sensors':
-            return this.GetAddNewSensorForm();
+            return this.AddNewSensorForm();
         case 'devices':
-            return this.GetAddNewDeviceForm();
+            return this.AddNewDeviceForm();
         case 'rules':
-            return this.GetAddNewRuleForm();
+            return this.AddNewRuleForm();
     }
 };
 
@@ -86,8 +88,8 @@ View.prototype.AddOnSaveClickHandler = function(parent_id) {
     }
 };
 
-View.prototype.GetAddNewRoomForm = function() {
-    return (
+View.prototype.AddNewRoomForm = function() {
+    var add_new_form = (
         "<table>" +
             "<tr>" +
                 "<td>Name</td>" +
@@ -98,20 +100,26 @@ View.prototype.GetAddNewRoomForm = function() {
                 "<td><button id='save_new_room' type='button'>Save</button></td>" +
             "</tr>" +
         "</table>");
+    $("#rooms").append(
+        "<div id='tab_rooms_add_new'>" + add_new_form + "</div>"
+    );
 };
 
-View.prototype.GetRoomForm = function(item) {
-    return (
+View.prototype.AddRoomForm = function(sub_tab_id, item) {
+    var subtab_form = (
         "<table>" +
             "<tr>" +
                 "<td>Name</td>" +
                 "<td><div>" + item.name + "</div></td>" +
             "</tr>" +
         "</table>");
+    $("#rooms").append(
+        "<div id='" + sub_tab_id + "' name='" + item.name + "'>" + subtab_form + "</div>"
+    );
 };
 
-View.prototype.GetAddNewSensorForm = function() {
-    return (
+View.prototype.AddNewSensorForm = function() {
+    var add_new_form = (
         "<table>" +
             "<tr>" +
                 "<td>Name</td>" +
@@ -130,10 +138,13 @@ View.prototype.GetAddNewSensorForm = function() {
                 "<td><button id='save_new_sensor' type='button'>Save</button></td>" +
             "</tr>" +
         "</table>");
+    $("#sensors").append(
+        "<div id='tab_sensors_add_new'>" + add_new_form + "</div>"
+    );
 };
 
-View.prototype.GetSensorForm = function(item) {
-    return (
+View.prototype.AddSensorForm = function(sub_tab_id, item) {
+    var subtab_form = (
         "<table>" +
             "<tr>" +
                 "<td>Name</td>" +
@@ -148,10 +159,13 @@ View.prototype.GetSensorForm = function(item) {
                 "<td><div>" + item.room + "</div></td>" +
             "</tr>" +
         "</table>");
+    $("#sensors").append(
+        "<div id='" + sub_tab_id + "' name='" + item.name + "'>" + subtab_form + "</div>"
+    );
 };
 
-View.prototype.GetAddNewDeviceForm = function() {
-    return (
+View.prototype.AddNewDeviceForm = function() {
+    var add_new_form = (
         "<table>" +
             "<tr>" +
                 "<td>Name</td>" +
@@ -177,10 +191,13 @@ View.prototype.GetAddNewDeviceForm = function() {
                 "<td><button id='save_new_device' type='button'>Save</button></td>" +
             "</tr>" +
         "</table>");
+    $("#devices").append(
+        "<div id='tab_devices_add_new'>" + add_new_form + "</div>"
+    );
 };
 
-View.prototype.GetDeviceForm = function(item) {
-    return (
+View.prototype.AddDeviceForm = function(sub_tab_id, item) {
+    var subtab_form = (
         "<table>" +
             "<tr>" +
                 "<td>Name</td>" +
@@ -201,10 +218,13 @@ View.prototype.GetDeviceForm = function(item) {
                 "</td>" +
             "</tr>" +
         "</table>");
+    $("#devices").append(
+        "<div id='" + sub_tab_id + "' name='" + item.name + "'>" + subtab_form + "</div>"
+    );
 };
 
-View.prototype.GetAddNewRuleForm = function() {
-    return (
+View.prototype.AddNewRuleForm = function() {
+    var add_new_form = (
         "<table>" +
             "<tr>" +
                 "<td>Name</td>" +
@@ -216,7 +236,14 @@ View.prototype.GetAddNewRuleForm = function() {
             "</tr>" +
             "<tr>" +
                 "<td>Formula</td>" +
-                "<td><input id='add_new_rule_formula' type='text'></td>" +
+                "<td>" +
+                    "<div id='add-new-formula-builder'></div>" +
+                    '<div class="btn-group">' +
+                        '<button class="btn btn-warning reset" data-target="basic">Reset</button>' +
+                        '<button class="btn btn-success set-json" data-target="basic">Set rules</button>' +
+                        '<button class="btn btn-primary parse-json" data-target="basic">Get rules</button>' +
+                    "</div>" +
+                "</td>" +
             "</tr>" +
             "<tr>" +
                 "<td>Handlers</td>" +
@@ -230,10 +257,14 @@ View.prototype.GetAddNewRuleForm = function() {
                 "<td><button id='save_new_rule' type='button'>Save</button></td>" +
             "</tr>" +
         "</table>");
+    $("#rules").append(
+        "<div id='tab_rules_add_new'>" + add_new_form + "</div>"
+    );
+    this.AddFormulaBuilder("add-new-formula-builder");
 };
 
-View.prototype.GetRuleForm = function(item) {
-    return (
+View.prototype.AddRuleForm = function(sub_tab_id, item) {
+    var subtab_form = (
         "<table>" +
             "<tr>" +
                 "<td>Name</td>" +
@@ -254,6 +285,9 @@ View.prototype.GetRuleForm = function(item) {
                  "</td>" +
             "</tr>" +
         "</table>");
+    $("#rules").append(
+        "<div id='" + sub_tab_id + "' name='" + item.name + "'>" + subtab_form + "</div>"
+    );
 };
 
 View.prototype.AddOnSaveRoomClickHandler = function() {
@@ -300,16 +334,16 @@ View.prototype.AddOnSaveRuleClickHandler = function() {
     });
 };
 
-View.prototype.GetSubtabForm = function(parent_id, item) {
+View.prototype.AddSubtabForm = function(parent_id, sub_tab_id, item) {
     switch (parent_id) {
         case 'rooms':
-            return this.GetRoomForm(item);
+            return this.AddRoomForm(sub_tab_id, item);
         case 'sensors':
-            return this.GetSensorForm(item);
+            return this.AddSensorForm(sub_tab_id, item);
         case 'devices':
-            return this.GetDeviceForm(item);
+            return this.AddDeviceForm(sub_tab_id, item);
         case 'rules':
-            return this.GetRuleForm(item);
+            return this.AddRuleForm(sub_tab_id, item);
     }
 };
 
@@ -333,3 +367,92 @@ View.prototype.RedrawRules = function(rules) {
     this.RedrawList('rules', rules);
 };
 
+View.prototype.GetSensorFilters = function () {
+    var filters = [];
+    var sensor_list = this.controller.model.sensors.array;
+    for (var sensor in sensor_list) {
+        filters.push({
+            id: sensor_list[sensor].name,
+            label: sensor_list[sensor].name,
+            type: 'integer'
+        });
+    }
+    return filters;
+};
+
+View.prototype.AddFormulaBuilder = function(parent_id) {
+    //demo http://querybuilder.js.org/assets/demo-basic.js
+
+    $('#' + parent_id).queryBuilder({
+        plugins: ['bt-tooltip-errors'],
+        filters: this.GetSensorFilters()
+  //       [{
+  //   id: 'sensor',
+  //   label: 'Sensor',
+  //   type: 'integer'
+  // }, {
+  //   id: 'name',
+  //   label: 'Name',
+  //   type: 'string'
+  // }, {
+  //   id: 'category',
+  //   label: 'Category',
+  //   type: 'integer',
+  //   input: 'select',
+  //   values: {
+  //     1: 'Books',
+  //     2: 'Movies',
+  //     3: 'Music',
+  //     4: 'Tools',
+  //     5: 'Goodies',
+  //     6: 'Clothes'
+  //   },
+  //   operators: ['equal', 'not_equal', 'in', 'not_in', 'is_null', 'is_not_null']
+  // }, {
+  //   id: 'in_stock',
+  //   label: 'In stock',
+  //   type: 'integer',
+  //   input: 'radio',
+  //   values: {
+  //     1: 'Yes',
+  //     0: 'No'
+  //   },
+  //   operators: ['equal']
+  // }, {
+  //   id: 'price',
+  //   label: 'Price',
+  //   type: 'double',
+  //   validation: {
+  //     min: 0,
+  //     step: 0.01
+  //   }
+  // }, {
+  //   id: 'id',
+  //   label: 'Identifier',
+  //   type: 'string',
+  //   placeholder: '____-____-____',
+  //   operators: ['equal', 'not_equal'],
+  //   validation: {
+  //     format: /^.{4}-.{4}-.{4}$/
+  //   }
+  // }]
+
+  //rules: rules_basic
+    });
+
+    $('#btn-reset').on('click', function() {
+        $('#builder-basic').queryBuilder('reset');
+    });
+
+    $('#btn-set').on('click', function() {
+        //$('#builder-basic').queryBuilder('setRules', rules_basic);
+    });
+
+    $('#btn-get').on('click', function() {
+      var result = $('#builder-basic').queryBuilder('getRules');
+
+      if (!$.isEmptyObject(result)) {
+        alert(JSON.stringify(result, null, 2));
+      }
+    });
+};

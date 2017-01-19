@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% block link %}
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/query-builder.default.min.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/jquery-ui.css') }}">
 {% endblock %}
@@ -20,15 +21,15 @@
 
 {% block body %}
   {% if session.logged_in %}
-    <form action="{{ url_for('index') }}" method=post class=add-entry>
-      <dl>
-        <dt>Title:
-        <dd><input type=text size=30 name=title>
-        <dt>Text:
-        <dd><textarea name=text rows=5 cols=40></textarea>
-        <dd><input type=submit value=Share>
-      </dl>
-    </form>
+{#    <form action="{{ url_for('index') }}" method=post class=add-entry>#}
+{#      <dl>#}
+{#        <dt>Title:#}
+{#        <dd><input type=text size=30 name=title>#}
+{#        <dt>Text:#}
+{#        <dd><textarea name=text rows=5 cols=40></textarea>#}
+{#        <dd><input type=submit value=Share>#}
+{#      </dl>#}
+{#    </form>#}
   {% endif %}
     <div id="tabs">
       <ul>
@@ -54,4 +55,16 @@
         </ul>
       </div>
     </div>
+
+    <div id="builder-basic"></div>
+{#    <script>#}
+{##}
+{#    </script>#}
+
+{#    <div class="btn-group">#}
+{#      <button class="btn btn-warning reset" data-target="basic">Reset</button>#}
+{#      <button class="btn btn-success set-json" data-target="basic">Set rules</button>#}
+{#      <button class="btn btn-primary parse-json" data-target="basic">Get rules</button>#}
+{#    </div>#}
+
 {% endblock %}
