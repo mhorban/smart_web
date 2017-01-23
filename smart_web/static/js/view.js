@@ -241,7 +241,7 @@ View.prototype.AddNewRuleForm = function() {
                     '<div class="btn-group">' +
                         '<button class="btn btn-warning reset" data-target="basic">Reset</button>' +
                         '<button class="btn btn-success set-json" data-target="basic">Set rules</button>' +
-                        '<button class="btn btn-primary parse-json" data-target="basic">Get rules</button>' +
+                        '<button id="btn-get" class="btn btn-primary parse-json" data-target="basic">Get rules</button>' +
                     "</div>" +
                 "</td>" +
             "</tr>" +
@@ -382,62 +382,13 @@ View.prototype.GetSensorFilters = function () {
 
 View.prototype.AddFormulaBuilder = function(parent_id) {
     //demo http://querybuilder.js.org/assets/demo-basic.js
+    var self = this;
 
     $('#' + parent_id).queryBuilder({
-        plugins: ['bt-tooltip-errors'],
+        plugins: [
+            'bt-tooltip-errors',
+            'not-group'],
         filters: this.GetSensorFilters()
-  //       [{
-  //   id: 'sensor',
-  //   label: 'Sensor',
-  //   type: 'integer'
-  // }, {
-  //   id: 'name',
-  //   label: 'Name',
-  //   type: 'string'
-  // }, {
-  //   id: 'category',
-  //   label: 'Category',
-  //   type: 'integer',
-  //   input: 'select',
-  //   values: {
-  //     1: 'Books',
-  //     2: 'Movies',
-  //     3: 'Music',
-  //     4: 'Tools',
-  //     5: 'Goodies',
-  //     6: 'Clothes'
-  //   },
-  //   operators: ['equal', 'not_equal', 'in', 'not_in', 'is_null', 'is_not_null']
-  // }, {
-  //   id: 'in_stock',
-  //   label: 'In stock',
-  //   type: 'integer',
-  //   input: 'radio',
-  //   values: {
-  //     1: 'Yes',
-  //     0: 'No'
-  //   },
-  //   operators: ['equal']
-  // }, {
-  //   id: 'price',
-  //   label: 'Price',
-  //   type: 'double',
-  //   validation: {
-  //     min: 0,
-  //     step: 0.01
-  //   }
-  // }, {
-  //   id: 'id',
-  //   label: 'Identifier',
-  //   type: 'string',
-  //   placeholder: '____-____-____',
-  //   operators: ['equal', 'not_equal'],
-  //   validation: {
-  //     format: /^.{4}-.{4}-.{4}$/
-  //   }
-  // }]
-
-  //rules: rules_basic
     });
 
     $('#btn-reset').on('click', function() {
@@ -449,10 +400,45 @@ View.prototype.AddFormulaBuilder = function(parent_id) {
     });
 
     $('#btn-get').on('click', function() {
-      var result = $('#builder-basic').queryBuilder('getRules');
+        var conditional_obj = $('#' + parent_id).queryBuilder('getRules');
+        var formula = self.ConvertObjToFormula(conditional_obj);
 
-      if (!$.isEmptyObject(result)) {
-        alert(JSON.stringify(result, null, 2));
-      }
+        //if (!$.isEmptyObject(result)) {
+        //    alert(JSON.stringify(result, null, 2));
+        //}
     });
+};
+
+View.prototype.ConvertObjToFormula = function(condition_obj) {
+    var operator_map = {
+        equal: "==",
+        not_equal: "!=",
+        less: "<",
+        less_or_equal: "<=",
+        greater: ">",
+        greater_or_equal: ">=",
+        AND: 'AND',
+        OR: 'OR'
+    };
+    if (typeof(condition_obj.rules) === 'undefined') {
+        var resp = (
+            '(SENSOR:' + condition_obj.field +
+            operator_map[condition_obj.operator] +
+            condition_obj.value + ')');
+        return resp;
+    }
+    var resp = '(';
+    for (var rule=0; rule < condition_obj.rules.length; rule++) {
+        if (rule != 0) {
+            if (condition_obj.condition == 'AND') {
+                resp += operator_map['AND'];
+            } else {// OR
+                resp += operator_map['OR'];
+            }
+        }
+        var expression = this.ConvertObjToFormula(condition_obj.rules[rule]);
+        resp += expression;
+    }
+    resp += ')';
+    return resp;
 };
